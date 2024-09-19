@@ -20,6 +20,42 @@ public class ContaBancaria {
         this.banco = banco;
         this.endereco = endereco;
         this.identificadorConta = contadorContas++;
+        this.saldo = saldo;
+    }
+
+    public void saque (double valor) {
+        double saldo = this.getSaldo();
+        if (saldo >= valor) {
+            setSaldo(saldo-valor);
+            System.out.println("\n");
+            System.out.println("================================Saque================================");
+            System.out.println("Saque no valor de " + valor + "R$" + " realizado com sucesso! Seu saldo atual é de: " + getSaldo() + "R$.");
+            System.out.println("======= *" + this.getBanco() + " - Saque Realizado em: " + this.getData() + " - " + getHora() + " =======");
+        }
+        else {
+            System.out.println("\n");
+            System.out.println("=======================================Saque=======================================");
+            System.out.println("Ops! Saldo insuficiente para a operação. Seu saldo atual é de: " + saldo + "R$.");
+            System.out.println("======= *" + this.getBanco() + " - Tentativa de Saque Realizada em: " + this.getData() + " - " + getHora() + " =======");
+        }
+    }
+
+    public void deposito (int valor) {
+        double saldo = getSaldo();
+        this.setSaldo(saldo + valor);
+        System.out.println("\n");
+        System.out.println("================================Deposito================================");
+        System.out.println("Deposito no valor de " + valor + "R$" + " realizado com sucesso.");
+        System.out.println("======= *" + this.getBanco() + " - Depósito Realizado em: " + this.getData() + " - " + getHora() + " =======");
+    }
+
+    public void pix(ContaBancaria desitno, double valor) {
+
+    }
+
+    public void trasnferencia(ContaBancaria destino, double valor) {
+
+
     }
 
     public void verificarSaldo() {
