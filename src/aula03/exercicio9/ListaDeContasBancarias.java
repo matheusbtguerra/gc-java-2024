@@ -4,29 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaDeContasBancarias {
+    private static ListaDeContasBancarias instancia;
+    protected List<ContaBancaria> contas = new ArrayList<>();
 
-    private List<ContaBancaria> listaContaBancaria = new ArrayList();
-
-    public void setListaContaBancaria(ContaBancaria contaBancaria) {
-        listaContaBancaria.add(contaBancaria);
-    }
-
-    public ContaBancaria getListaContaBancaria() {
-        for (ContaBancaria conta : listaContaBancaria) {
-            return conta;
+    public static ListaDeContasBancarias getInstancia() {
+        if (instancia == null) {
+            instancia = new ListaDeContasBancarias();
         }
-        return null;
+        return instancia;
     }
 
-    public void removerContaBancaria(int id) {
-        for (ContaBancaria conta : listaContaBancaria) {
-            if (conta.getIdentificadorConta() == id) {
-                listaContaBancaria.remove(conta);
-            }
+    public List<ContaBancaria> getContas() {
+        return contas;
+    }
+
+    public void adicionarConta(ContaBancaria conta) {
+        contas.add(conta);
+    }
+
+    public void removerConta(int id) {
+        contas.removeIf(contaBancaria -> contaBancaria.getIdentificadorConta() == id);
+    }
+
+    public void listarContas() {
+        for (ContaBancaria conta : contas) {
+            System.out.println(conta);
         }
-    }
-
-    public void removerContaBancaria(ContaBancaria contaBancaria) {
-        listaContaBancaria.remove(contaBancaria);
     }
 }

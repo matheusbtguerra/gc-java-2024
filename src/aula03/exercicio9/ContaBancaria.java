@@ -20,6 +20,7 @@ public class ContaBancaria {
         this.banco = banco;
         this.endereco = endereco;
         this.identificadorConta = contadorContas++;
+        registrarContaNaLista(this);
     }
 
     public void verificarSaldo() {
@@ -100,6 +101,10 @@ public class ContaBancaria {
         ListaDeTransacao.getInstancia().adicionarTransacao(novaTransacao);
     }
 
+    public void registrarContaNaLista(ContaBancaria contaBancaria){
+        ListaDeContasBancarias.getInstancia().adicionarConta(contaBancaria);
+    }
+
     public String getNome() {
         return nome;
     }
@@ -132,6 +137,8 @@ public class ContaBancaria {
     public String getData() {
         return data;
     }
+
+
 
     @Override
     public String toString() {
