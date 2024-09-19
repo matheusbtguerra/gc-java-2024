@@ -3,6 +3,7 @@ package aula03.exercicio9;
 import aula03.exercicio9.utilitarios.DataUtils;
 
 import java.util.Date;
+import java.util.Scanner;
 
 public class ContaBancaria {
 
@@ -94,6 +95,16 @@ public class ContaBancaria {
         } else {
             System.out.println("Saldo insuficiente ou valor inválido para Pix.");
         }
+    }
+
+    public void alterarEndereco() {
+        Scanner ler = new Scanner(System.in);
+        System.out.println("============================Alterar Endereço============================");
+        System.out.println("Olá " + nome + " o seu endereço atual é " + endereco + ".");
+        System.out.println("Digite o seu novo endereço: ");
+        endereco = ler.nextLine();
+        System.out.println("Endereço atualizado com sucesso! Endereço atual: " + endereco + ".");
+        System.out.println("======= *" + this.getBanco() + " - Alteração Realizada em: " + data + " - " + hora + " =======");
     }
 
     private void registrarTransacao(Descricao descricao, double valor) {
