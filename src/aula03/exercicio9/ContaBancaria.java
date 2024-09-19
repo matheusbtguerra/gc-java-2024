@@ -25,13 +25,13 @@ public class ContaBancaria {
     public void verificarSaldo() {
         System.out.println("\n");
         System.out.println("============================Consulta de Saldo============================");
-        System.out.println("Olá " + this.getNome() + "! O saldo disponível em sua conta é de " + this.getSaldo() + "R$.");
-        System.out.println("======= *" + this.getBanco() + " - Consulta Realizada em: " + this.getData() + " - " + getHora() + " =======");
+        System.out.println("Olá " + nome + "! O saldo disponível em sua conta é de " + saldo + "R$.");
+        System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + " =======");
     }
 
     public void verficarHorario() {
         System.out.println("\n");
-        System.out.println("Olá " + this.getNome() + "! As datas e horas atuais são " + this.getData() + " - " + this.getHora());
+        System.out.println("Olá " + nome + "! As datas e horas atuais são " + data + " - " + hora);
     }
 
     public void mostrarInformacoes() {
