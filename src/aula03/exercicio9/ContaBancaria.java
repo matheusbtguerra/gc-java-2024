@@ -1,49 +1,26 @@
 package aula03.exercicio9;
 
+import aula03.exercicio9.utilitarios.DataUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ContaBancaria {
-    String nome, cpf, banco, endereco;
-    double saldo;
-    int identificadorConta;
-    Date horaAtual = new Date();
-    String data = new SimpleDateFormat("dd/MM/yyyy").format(horaAtual);
-    String hora = new SimpleDateFormat("HH:mm:ss").format(horaAtual);
 
-    public ContaBancaria(String nome, String cpf, String banco, String endereco, double saldo,int identificadorConta) {
+    private String nome, cpf, banco, endereco;
+    private double saldo;
+    private Date horaAtual = new Date();
+    private String data = DataUtils.formatData(horaAtual);
+    private String hora = DataUtils.formatHora(horaAtual);
+    private static int contadorContas = 1;
+    private int identificadorConta;
 
+    public ContaBancaria(String nome, String cpf, String banco, String endereco) {
         this.nome = nome;
         this.cpf = cpf;
         this.banco = banco;
         this.endereco = endereco;
-        this.saldo = saldo;
-        this.identificadorConta = identificadorConta;
-    }
-
-    public void saque (double valor) {
-        double saldo = this.getSaldo();
-        if (saldo >= valor) {
-            setSaldo(saldo-valor);
-            System.out.println("Saque no valor de " + valor + "R$" + " realizado com sucesso! Seu saldo atual é de: " + getSaldo() + "R$.");
-        }
-        else {
-        System.out.println("Ops! Saldo insuficiente para a operação. Seu saldo atual é de: " + saldo + "R$.");
-        }
-    }
-
-    public void deposito (int valor) {
-        double saldo = getSaldo();
-        this.setSaldo(saldo + valor);
-        System.out.println("Deposito no valor de " + valor + "R$" + " realizado com sucesso.");
-    }
-
-    public void pix(ContaBancaria desitno, double valor) {
-
-    }
-
-    public void trasnferencia(ContaBancaria destino, double valor) {
-
+        this.identificadorConta = contadorContas++;
     }
 
     public void verificarSaldo() {
@@ -54,8 +31,9 @@ public class ContaBancaria {
         System.out.println("Olá " + this.getNome() + "! As datas e horas atuais são " + this.getData() + " - " + this.getHora());
     }
 
-    public void verificarInformacoes() {
+    public void mostrarInformacoes() {
         System.out.println("----------Informações da Conta----------");
+        System.out.println("* Número da conta: " + this.getIdentificadorConta() + ".");
         System.out.println("* Nome do Titular: " + this.getNome() + ".");
         System.out.println("* CPF do Titular: " + this.getCpf() + ".");
         System.out.println("* Saldo Atual: " + this.getSaldo() + "R$.");
@@ -63,75 +41,105 @@ public class ContaBancaria {
         System.out.println("======= *" + this.getBanco() + " - Consulta Realizada em: " + this.getData() + " - " + getHora() + " =======");
     }
 
-    public String getNome() {
-        return nome;
+    public void deposito(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            System.out.printf("Depósito no valor de R$%.2f realizado com sucesso.%n", valor);
+            registrarTransacao(Descricao.DEPOSITO, valor);
+        } else {
+            System.out.println("Valor inválido para depósito.");
+        }
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void saque(double valor) {
+        if (valor > 0 && saldo >= valor) {
+            saldo -= valor;
+            System.out.printf("Saque no valor de R$%.2f realizado com sucesso! Seu saldo atual é de R$%.2f.%n", valor, saldo);
+            registrarTransacao(Descricao.SAQUE, valor);
+        } else {
+            System.out.println("Saldo insuficiente ou valor inválido para saque.");
+        }
+    }
+
+    public void transferencia(ContaBancaria destino, double valor) {
+        double taxaDeTransferencia = 5.99;
+
+        if (valor > 0 && saldo >= (valor + taxaDeTransferencia)) {
+            saldo -= (valor + taxaDeTransferencia);
+            destino.saldo += valor;
+            System.out.printf("Transferência no valor de R$%.2f realizada com sucesso para a conta %d.%n", valor, destino.getIdentificadorConta());
+            registrarTransacao(Descricao.TRANSFERENCIA, valor);
+        } else {
+            System.out.println("Saldo insuficiente ou valor inválido para transferência.");
+        }
+    }
+
+    public void realizarPix(ContaBancaria destino, double valor) {
+        if (valor > 0 && saldo >= valor) {
+            saldo -= valor;
+            destino.saldo += valor;
+            System.out.printf("Pix no valor de R$%.2f realizado com sucesso para a conta %d.%n", valor, destino.getIdentificadorConta());
+            registrarTransacao(Descricao.PIX, valor);
+        } else {
+            System.out.println("Saldo insuficiente ou valor inválido para Pix.");
+        }
+    }
+
+    private void registrarTransacao(Descricao descricao, double valor) {
+        Transacao novaTransacao = new Transacao(descricao, this, valor);
+        ListaDeTransacao.getInstancia().adicionarTransacao(novaTransacao);
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getBanco() {
         return banco;
-    }
-
-    public void setBanco(String banco) {
-        this.banco = banco;
     }
 
     public String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
     public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
 
     public int getIdentificadorConta() {
         return identificadorConta;
-    }
-
-    public void setIdentificadorConta(int identificadorConta) {
-        this.identificadorConta = identificadorConta;
     }
 
     public Date getHoraAtual() {
         return horaAtual;
     }
 
-    public void setHoraAtual(Date horaAtual) {
-        this.horaAtual = horaAtual;
-    }
-
     public String getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
 
     public String getData() {
         return data;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    @Override
+    public String toString() {
+        return "ContaBancaria{" +
+               "nome='" + nome + '\'' +
+               ", cpf='" + cpf + '\'' +
+               ", banco='" + banco + '\'' +
+               ", endereco='" + endereco + '\'' +
+               ", saldo=" + saldo +
+               ", identificadorConta=" + identificadorConta;
     }
 }
