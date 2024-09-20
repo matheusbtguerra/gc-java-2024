@@ -28,7 +28,7 @@ public class ListaDeContasBancarias {
 
     public void listarContas() {
         for (ContaBancaria conta : contas) {
-            System.out.println(conta);
+            conta.mostrarInformacoes();
         }
     }
 }

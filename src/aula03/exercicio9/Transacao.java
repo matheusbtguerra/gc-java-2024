@@ -2,7 +2,8 @@ package aula03.exercicio9;
 
 import aula03.exercicio9.utilitarios.DataUtils;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Transacao {
 
@@ -12,7 +13,8 @@ public class Transacao {
     private ContaBancaria origem;
     private ContaBancaria destino;
     private double valor;
-    private Date momentoTransacao;
+    private LocalDate dataTransacao;
+    private LocalTime tempoTransacao;
     private String data;
     private String hora;
 
@@ -22,9 +24,10 @@ public class Transacao {
         this.origem = origem;
         this.valor = valor;
         this.destino = null;
-        this.momentoTransacao = new Date();
-        this.data = DataUtils.formatData(momentoTransacao);
-        this.hora = DataUtils.formatHora(momentoTransacao);
+        this.dataTransacao = LocalDate.now();
+        this.tempoTransacao = LocalTime.now();
+        this.data = DataUtils.formatData(dataTransacao);
+        this.hora = DataUtils.formatHora(tempoTransacao);
     }
 
     public Transacao(Descricao descricao, ContaBancaria origem, ContaBancaria destino, double valor) {
@@ -33,17 +36,13 @@ public class Transacao {
         this.origem = origem;
         this.destino = destino;
         this.valor = valor;
-        this.momentoTransacao = new Date();
-        this.data = DataUtils.formatData(momentoTransacao);
-        this.hora = DataUtils.formatHora(momentoTransacao);
+        this.dataTransacao = LocalDate.now();
+        this.data = DataUtils.formatData(dataTransacao);
+        this.hora = DataUtils.formatHora(tempoTransacao);
     }
 
     public int getId() {
         return id;
-    }
-
-    public Descricao getDescricao() {
-        return descricao;
     }
 
     public ContaBancaria getOrigem() {
@@ -58,8 +57,8 @@ public class Transacao {
         return valor;
     }
 
-    public Date getMomentoTransacao() {
-        return momentoTransacao;
+    public LocalDate getDataTransacao() {
+        return dataTransacao;
     }
 
     public String getData() {
@@ -73,16 +72,17 @@ public class Transacao {
     @Override
     public String toString() {
         return String.format("""
-            Transacao{
-                id=%d,
-                descricao=%s,
-                origem=%s,
-                destino=%s,
-                valor=%.2f,
-                momentoTransacao=%s,
-                data='%s',
-                hora='%s'
-            }
-            """, id, descricao, origem, destino, valor, momentoTransacao, data, hora);
+                
+                Transacao{
+                    id=%d,
+                    descricao=%s,
+                    origem=%s,
+                    destino=%s,
+                    valor=%.2f,
+                    momentoTransacao=%s,
+                    data='%s',
+                    hora='%s'
+                }
+                """, id, descricao, origem, destino, valor, dataTransacao, data, hora);
     }
 }
