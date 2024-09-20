@@ -106,27 +106,35 @@ public class ContaBancaria {
 
     public void saque(double valor) {
         reajustesMensais();
-        if (valor > 0 && saldo >= valor) {
-            saldo -= valor;
-            System.out.println("\n================================Saque================================");
-            System.out.println("Saque no valor de " + valor + "R$" + " realizado com sucesso! Seu saldo atual é de: " + getSaldo() + "R$.");
-            System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + " =======");
-            registrarTransacao(Descricao.SAQUE, valor);
-        } else {
-            System.out.println("\nSaldo insuficiente ou valor inválido para saque.");
-        }
+            if (valor > 0 && saldo >= valor) {
+                saldo -= valor;
+                System.out.println("\n================================Saque================================");
+                System.out.println("Saque no valor de " + valor + "R$" + " realizado com sucesso! Seu saldo atual é de: " + getSaldo() + "R$.");
+                System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + " =======");
+                registrarTransacao(Descricao.SAQUE, valor);
+            } else {
+                System.out.println("\nSaldo insuficiente ou valor inválido para saque.");
+            }
+
     }
 
     public void transferencia(ContaBancaria destino, double valor) {
         reajustesMensais();
-        double taxaDeTransferencia = 5.99;
-        if (valor > 0 && saldo >= (valor + taxaDeTransferencia)) {
-            saldo -= (valor + taxaDeTransferencia);
-            destino.saldo += valor;
-            System.out.printf("\nTransferência no valor de R$%.2f realizada com sucesso para a conta %d.%n", valor, destino.getIdentificadorConta());
-            registrarTransacao(Descricao.TRANSFERENCIA, valor);
-        } else {
-            System.out.println("\nSaldo insuficiente ou valor inválido para transferência.");
+        LocalTime horaAbertura = LocalTime.of(8, 0, 0);
+        LocalTime horafechamento = LocalTime.of(19,0,0);
+        if (horaAtual.isAfter(horaAbertura) && horaAtual.isBefore(horafechamento)) {
+            double taxaDeTransferencia = 5.99;
+            if (valor > 0 && saldo >= (valor + taxaDeTransferencia)) {
+                saldo -= (valor + taxaDeTransferencia);
+                destino.saldo += valor;
+                System.out.printf("\nTransferência no valor de R$%.2f realizada com sucesso para a %s.%n", valor, destino.nome);
+                registrarTransacao(Descricao.TRANSFERENCIA, valor);
+            } else {
+                System.out.println("\nSaldo insuficiente ou valor inválido para transferência.");
+            }
+        }
+        else {
+            System.out.println("\nDesculpe estamos fora do horário de funcionamento de trasnferências bancárias. Nosso horário de funcionamento está entre 8h e 19h.");
         }
     }
 
