@@ -17,6 +17,7 @@ public class ContaBancaria {
     private static int contadorContas = 1;
     private final int identificadorConta;
     private boolean valorizadoHoje = false;
+    private boolean cobradoHoje = false;
 
     public ContaBancaria(String nome, String cpf, String banco, String endereco) {
         this.nome = nome;
@@ -56,9 +57,20 @@ public class ContaBancaria {
     private void registrarContaNaLista(ContaBancaria contaBancaria) {
         ListaDeContasBancarias.getInstancia().adicionarConta(contaBancaria);
     }
+    private void cobrancaMensal(){
+        int taxaMensal = 15;
+        if (dataAtual.getDayOfMonth() == 1 && cobradoHoje == false) {
+            saldo -= taxaMensal;
+            System.out.println("\nTaxa mensal de uso cobrada com sucesso!");
+        }
+    }
 
-    public void verificarSaldo() {
+    private void reajustesMensais() {
+        cobrancaMensal();
         valorizarSaldoDiaCinco();
+    }
+    public void verificarSaldo() {
+        reajustesMensais();
         System.out.println("\n============================Consulta de Saldo===========================");
         System.out.println("Olá " + nome + "! O saldo disponível em sua conta é de " + saldo + "R$.");
         System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + "======");
@@ -69,7 +81,7 @@ public class ContaBancaria {
     }
 
     public void mostrarInformacoes() {
-        valorizarSaldoDiaCinco();
+        reajustesMensais();
         System.out.println("\n==========================Informações da Conta===========================");
         System.out.println("* Número da conta: " + identificadorConta + ".");
         System.out.println("* Nome do Titular: " + nome + ".");
@@ -80,7 +92,7 @@ public class ContaBancaria {
     }
 
     public void deposito(double valor) {
-        valorizarSaldoDiaCinco();
+        reajustesMensais();
         if (valor > 0) {
             saldo += valor;
             System.out.println("\n================================Deposito================================");
@@ -93,7 +105,7 @@ public class ContaBancaria {
     }
 
     public void saque(double valor) {
-        valorizarSaldoDiaCinco();
+        reajustesMensais();
         if (valor > 0 && saldo >= valor) {
             saldo -= valor;
             System.out.println("\n================================Saque================================");
@@ -106,7 +118,7 @@ public class ContaBancaria {
     }
 
     public void transferencia(ContaBancaria destino, double valor) {
-        valorizarSaldoDiaCinco();
+        reajustesMensais();
         double taxaDeTransferencia = 5.99;
         if (valor > 0 && saldo >= (valor + taxaDeTransferencia)) {
             saldo -= (valor + taxaDeTransferencia);
@@ -119,7 +131,7 @@ public class ContaBancaria {
     }
 
     public void realizarPix(ContaBancaria destino, double valor) {
-        valorizarSaldoDiaCinco();
+        reajustesMensais();
         if (valor > 0 && saldo >= valor) {
             saldo -= valor;
             destino.saldo += valor;
@@ -131,7 +143,7 @@ public class ContaBancaria {
     }
 
     public void alterarEndereco() {
-        valorizarSaldoDiaCinco();
+        reajustesMensais();
         Scanner ler = new Scanner(System.in);
 
         System.out.println("\n============================Alterar Endereço============================");
