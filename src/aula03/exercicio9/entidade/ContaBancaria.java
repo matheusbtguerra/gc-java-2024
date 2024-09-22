@@ -1,6 +1,8 @@
-package aula03.exercicio9;
+package aula03.exercicio9.entidade;
 
-import aula03.exercicio9.utilitarios.DataUtils;
+import aula03.exercicio9.repositorio.ListaDeContasBancarias;
+import aula03.exercicio9.repositorio.ListaDeTransacao;
+import aula03.exercicio9.utilitario.DataUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,14 +12,12 @@ public class ContaBancaria {
 
     private String nome, cpf, banco, endereco;
     private double saldo;
-    private LocalDate dataAtual = LocalDate.now();
-    private LocalTime horaAtual = LocalTime.now();
-    private String data = DataUtils.formatData(dataAtual);
-    private String hora = DataUtils.formatHora(horaAtual);
     private static int contadorContas = 1;
     private final int identificadorConta;
     private boolean valorizadoHoje = false;
     private boolean cobradoHoje = false;
+    private boolean ativo = false;
+    private final double taxaDeTransferencia = 5.99;
 
     public ContaBancaria(String nome, String cpf, String banco, String endereco) {
         this.nome = nome;
@@ -25,10 +25,12 @@ public class ContaBancaria {
         this.banco = banco;
         this.endereco = endereco;
         this.identificadorConta = contadorContas++;
+        ativo = true;
         registrarContaNaLista(this);
     }
 
     private void valorizarSaldoDiaCinco(double taxa) {
+        LocalDate dataAtual = obterDataAtual();
         if (dataAtual.getDayOfMonth() == 5) {
             if (saldo <= 0) {
                 System.out.println("\nNão foi possivel valorizar o saldo, pois você está com o saldo de R$" + saldo);
@@ -57,10 +59,13 @@ public class ContaBancaria {
     private void registrarContaNaLista(ContaBancaria contaBancaria) {
         ListaDeContasBancarias.getInstancia().adicionarConta(contaBancaria);
     }
-    private void cobrancaMensal(){
+
+    private void cobrancaMensal() {
+        LocalDate dataAtual = obterDataAtual();
         int taxaMensal = 15;
-        if (dataAtual.getDayOfMonth() == 1 && cobradoHoje == false) {
+        if (dataAtual.getDayOfMonth() == 1 && !cobradoHoje) {
             saldo -= taxaMensal;
+            cobradoHoje = true; // Garantindo que a cobrança não seja feita novamente
             System.out.println("\nTaxa mensal de uso cobrada com sucesso!");
         }
     }
@@ -69,15 +74,18 @@ public class ContaBancaria {
         cobrancaMensal();
         valorizarSaldoDiaCinco();
     }
+
     public void verificarSaldo() {
         reajustesMensais();
         System.out.println("\n============================Consulta de Saldo===========================");
-        System.out.println("Olá " + nome + "! O saldo disponível em sua conta é de " + saldo + "R$.");
-        System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + "======");
+        System.out.printf("\nOlá %s! O saldo disponível em sua conta é de R$%.2f.", nome, saldo);
+        mostrarInformacoes();
     }
 
     public void verficarHorario() {
-        System.out.println("\nOlá " + nome + "! As datas e horas atuais são " + data + " - " + hora);
+        LocalDate dataAtual = obterDataAtual();
+        LocalTime horaAtual = obterHoraAtual();
+        System.out.println("\nOlá " + nome + "! As datas e horas atuais são " + DataUtils.formatData(dataAtual) + " - " + DataUtils.formatHora(horaAtual));
     }
 
     public void mostrarInformacoes() {
@@ -86,18 +94,30 @@ public class ContaBancaria {
         System.out.println("* Número da conta: " + identificadorConta + ".");
         System.out.println("* Nome do Titular: " + nome + ".");
         System.out.println("* CPF do Titular: " + cpf + ".");
-        System.out.println("* Saldo Atual: " + saldo + "R$.");
+        System.out.printf("* Saldo Atual: R$%.2f.%n", saldo);
         System.out.println("* Endereço do Titular: " + endereco + ".");
+        System.out.println(!ativo ? "* Conta encerrada! " : "* Conta ativa");
         momentoConsulta();
     }
 
+    public void mostrarInformacoesParciais() {
+        System.out.println("\n==========================Informações da Conta===========================");
+        System.out.println("* Número da conta: " + identificadorConta + ".");
+        System.out.println("* Nome do Titular: " + nome + ".");
+    }
+
     public void deposito(double valor) {
+        if (!ativo) {
+            System.out.println("Conta encerrada. Não é possível realizar depósitos.");
+            return;
+        }
         reajustesMensais();
         if (valor > 0) {
             saldo += valor;
             System.out.println("\n================================Deposito================================");
-            System.out.println("Deposito no valor de " + valor + "R$" + " realizado com sucesso.");
-            System.out.println("======= *" + banco + " - Depósito Realizado em: " + data + " - " + hora + " =======");
+            System.out.println("\nDeposito no valor de R$" + valor + " realizado com sucesso.");
+            System.out.printf("Saldo atual de: R$%.2f.%n", saldo);
+            momentoConsulta();
             registrarTransacao(Descricao.DEPOSITO, valor);
         } else {
             System.out.println("Valor inválido para depósito.");
@@ -105,45 +125,57 @@ public class ContaBancaria {
     }
 
     public void saque(double valor) {
+        if (!ativo) {
+            System.out.println("Conta encerrada. Não é possível realizar saques.");
+            return;
+        }
         reajustesMensais();
-            if (valor > 0 && saldo >= valor) {
-                saldo -= valor;
-                System.out.println("\n================================Saque================================");
-                System.out.println("Saque no valor de " + valor + "R$" + " realizado com sucesso! Seu saldo atual é de: " + getSaldo() + "R$.");
-                System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + " =======");
-                registrarTransacao(Descricao.SAQUE, valor);
-            } else {
-                System.out.println("\nSaldo insuficiente ou valor inválido para saque.");
-            }
-
+        if (valor > 0 && saldo >= valor) {
+            saldo -= valor;
+            System.out.println("\n================================Saque================================");
+            System.out.println("\nSaque no valor de R$" + valor + " realizado com sucesso! Seu saldo atual é de: R$" + saldo + ".");
+            momentoConsulta();
+            registrarTransacao(Descricao.SAQUE, valor);
+        } else {
+            System.out.println("\nSaldo insuficiente ou valor inválido para saque.");
+        }
     }
 
     public void transferencia(ContaBancaria destino, double valor) {
+        if (!ativo) {
+            System.out.println("Conta encerrada. Não é possível realizar transferências.");
+            return;
+        }
         reajustesMensais();
         LocalTime horaAbertura = LocalTime.of(8, 0, 0);
-        LocalTime horafechamento = LocalTime.of(19,0,0);
-        if (horaAtual.isAfter(horaAbertura) && horaAtual.isBefore(horafechamento)) {
+        LocalTime horaFechamento = LocalTime.of(19, 0, 0);
+        LocalTime horaAtual = obterHoraAtual();
+        if (horaAtual.isAfter(horaAbertura) && horaAtual.isBefore(horaFechamento)) {
             double taxaDeTransferencia = 5.99;
+
             if (valor > 0 && saldo >= (valor + taxaDeTransferencia)) {
                 saldo -= (valor + taxaDeTransferencia);
                 destino.saldo += valor;
-                System.out.printf("\nTransferência no valor de R$%.2f realizada com sucesso para a %s.%n", valor, destino.nome);
+                System.out.printf("\nTransferência no valor de R$%.2f realizada com sucesso para %s.%n", valor, destino.nome);
                 registrarTransacao(Descricao.TRANSFERENCIA, valor);
             } else {
                 System.out.println("\nSaldo insuficiente ou valor inválido para transferência.");
             }
-        }
-        else {
-            System.out.println("\nDesculpe estamos fora do horário de funcionamento de trasnferências bancárias. Nosso horário de funcionamento está entre 8h e 19h.");
+        } else {
+            System.out.println("\nDesculpe, estamos fora do horário de funcionamento de transferências bancárias. Nosso horário de funcionamento está entre 8h e 19h.");
         }
     }
 
     public void realizarPix(ContaBancaria destino, double valor) {
+        if (!ativo) {
+            System.out.println("Conta encerrada. Não é possível realizar PIX.");
+            return;
+        }
         reajustesMensais();
         if (valor > 0 && saldo >= valor) {
             saldo -= valor;
             destino.saldo += valor;
-            System.out.printf("\nPix no valor de R$%.2f realizado com sucesso para a conta %d.%n", valor, destino.getIdentificadorConta());
+            System.out.printf("\nPix no valor de R$%.2f realizado com sucesso para %d.%n", valor, destino.nome);
             registrarTransacao(Descricao.PIX, valor);
         } else {
             System.out.println("\nSaldo insuficiente ou valor inválido para Pix.");
@@ -155,15 +187,30 @@ public class ContaBancaria {
         Scanner ler = new Scanner(System.in);
 
         System.out.println("\n============================Alterar Endereço============================");
-        System.out.println("Olá " + nome + " o seu endereço atual é " + endereco + ".");
+        System.out.println("Olá " + nome + " o seu endereço atual é: " + endereco + ".");
         System.out.print("Digite o seu novo endereço: ");
         endereco = ler.nextLine();
         System.out.println("Endereço atualizado com sucesso! Endereço atual: " + endereco + ".");
         momentoConsulta();
     }
 
-    private void momentoConsulta () {
-        System.out.println("======= *" + banco + " - Consulta Realizada em: " + data + " - " + hora + "=======");
+    public void encerrarConta() {
+        this.ativo = false; // Define a conta como inativa
+        System.out.println("Conta encerrada com sucesso.");
+    }
+
+    private void momentoConsulta() {
+        LocalDate dataAtual = obterDataAtual();
+        LocalTime horaAtual = obterHoraAtual();
+        System.out.printf("\n======= *%s - Consulta Realizada em: %s - %s =======", banco, DataUtils.formatData(dataAtual), DataUtils.formatHora(horaAtual));
+    }
+
+    private LocalDate obterDataAtual() {
+        return LocalDate.now();
+    }
+
+    private LocalTime obterHoraAtual() {
+        return LocalTime.now();
     }
 
     public String getNome() {
@@ -190,23 +237,12 @@ public class ContaBancaria {
         return identificadorConta;
     }
 
-    public String getHora() {
-        return hora;
-    }
-
-    public String getData() {
-        return data;
+    public double getTaxaDeTransferencia() {
+        return taxaDeTransferencia;
     }
 
     @Override
     public String toString() {
-        return "ContaBancaria{" +
-               "nome='" + nome + '\'' +
-               ", cpf='" + cpf + '\'' +
-               ", banco='" + banco + '\'' +
-               ", endereco='" + endereco + '\'' +
-               ", saldo=" + saldo +
-               ", identificadorConta=" + identificadorConta +
-               '}';
+        return "ContaBancaria{" + "nome='" + nome + '\'' + ", cpf='" + cpf + '\'' + ", banco='" + banco + '\'' + ", endereco='" + endereco + '\'' + ", saldo=" + saldo + ", identificadorConta=" + identificadorConta + '}';
     }
 }

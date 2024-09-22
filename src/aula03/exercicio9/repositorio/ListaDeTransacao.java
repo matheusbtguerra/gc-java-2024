@@ -1,4 +1,6 @@
-package aula03.exercicio9;
+package aula03.exercicio9.repositorio;
+
+import aula03.exercicio9.entidade.Transacao;
 
 import java.util.ArrayList;
 import java.util.List;

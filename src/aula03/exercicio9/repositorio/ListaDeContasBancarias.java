@@ -1,4 +1,6 @@
-package aula03.exercicio9;
+package aula03.exercicio9.repositorio;
+
+import aula03.exercicio9.entidade.ContaBancaria;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +28,24 @@ public class ListaDeContasBancarias {
         contas.removeIf(contaBancaria -> contaBancaria.getIdentificadorConta() == id);
     }
 
+    public ContaBancaria procurarConta(int id) {
+        for (ContaBancaria conta : contas) {
+            if (conta.getIdentificadorConta() == id) {
+                return conta;
+            }
+        }
+        return null;
+    }
+
     public void listarContas() {
         for (ContaBancaria conta : contas) {
             conta.mostrarInformacoes();
+        }
+    }
+
+    public void mostrarInformacoesParciais() {
+        for (ContaBancaria conta : contas) {
+            conta.mostrarInformacoesParciais();
         }
     }
 }

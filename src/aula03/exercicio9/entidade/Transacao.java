@@ -1,6 +1,6 @@
-package aula03.exercicio9;
+package aula03.exercicio9.entidade;
 
-import aula03.exercicio9.utilitarios.DataUtils;
+import aula03.exercicio9.utilitario.DataUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

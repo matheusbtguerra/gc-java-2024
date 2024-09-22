@@ -12,7 +12,9 @@ package aula03.exercicio9;
     //saque(double valor): Realiza um saque da conta, desde que o saldo seja suficiente. Caso contrário, exibe uma mensagem de erro.
     //deposito(double valor): Realiza um depósito na conta, atualizando o saldo.
     //pix(double valor): Realiza uma transferência PIX. Caso contrário, exibe uma mensagem de erro.
-    //transferencia(ContaBancaria destino, double valor): Realiza uma transferência para outra conta bancária, verificando se o horário atual está dentro do intervalo permitido (8hrs às 19hrs) e se o saldo é suficiente. Caso contrário, exibe uma mensagem de erro.
+    //transferencia(ContaBancaria destino, double valor):
+        // Realiza uma transferência para outra conta bancária, verificando se o horário atual está dentro do intervalo permitido (8hrs às 19hrs) e se o saldo é suficiente.
+        // Caso contrário, exibe uma mensagem de erro.
     //verificarSaldo(): Exibe o saldo atual da conta.
     //verificarHorario(): Exibe o horário atual.
     //verificarInformacoes(): Exibe todas as informações da conta bancária, como nome, CPF, saldo, etc.
@@ -26,6 +28,10 @@ package aula03.exercicio9;
     //Crie um método calcularJuros(double taxa) que calcule juros sobre o saldo da conta e os adicione mensalmente.
     //Implemente um método fecharConta() que encerre a conta, zerando o saldo e não permitindo mais operações.
 
+import aula03.exercicio9.entidade.ContaBancaria;
+import aula03.exercicio9.repositorio.ListaDeContasBancarias;
+import aula03.exercicio9.utilitario.MenuBancario;
+
 public class Exe09 {
     public static void main(String[] args) {
 
@@ -33,12 +39,12 @@ public class Exe09 {
         ContaBancaria conta2 = new ContaBancaria("Matheus", "000.000.000-55", "Santander", "Rua do Caldeira");
         ContaBancaria conta3 = new ContaBancaria("Rafael", "000.000.000-56","Banrisul","Rua do Caldeira");
 
-        conta1.deposito(500);
-        conta1.transferencia(conta2, 300);
-        conta3.deposito(500);
-        conta1.alterarEndereco();
+        MenuBancario menuBancario = new MenuBancario();
 
-        ListaDeContasBancarias.getInstancia().listarContas();
-        ListaDeTransacao.getInstancia().listarTransacoes();
+        menuBancario.menu();
+
+        //
+
+
     }
 }
