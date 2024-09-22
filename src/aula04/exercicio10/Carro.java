@@ -1,14 +1,16 @@
 package aula04.exercicio10;
 
 public class Carro extends Veiculo {
-    public Carro(int ano, String modelo, String marca) {
+    int numeroDePortas;
+
+    public Carro(int ano, String modelo, String marca, int numeroDePortas) {
         super(ano, modelo, marca);
+        this.numeroDePortas = numeroDePortas;
     }
 
     @Override
-    public double calcularCustoViagem(double distancia) {
-        double custoFixo = 0.20, custoViagem;
-        custoViagem = custoFixo * distancia;
-        return custoViagem;
+    public void informacoes() {
+        System.out.println("\n---------Informações do Veículo---------");
+        System.out.println("\nModelo: " + modelo + "\n Marca: " + marca + "\n Ano: " + ano + "\n Número de Portas: " + numeroDePortas);
     }
 }
