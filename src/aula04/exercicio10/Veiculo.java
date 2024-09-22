@@ -10,6 +10,6 @@ public abstract class Veiculo {
         this.marca = marca;
     }
 
-    public abstract double calcularCustoViagem(double distancia);
+    public abstract void informacoes();
 
 }
