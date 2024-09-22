@@ -175,7 +175,7 @@ public class ContaBancaria {
         if (valor > 0 && saldo >= valor) {
             saldo -= valor;
             destino.saldo += valor;
-            System.out.printf("\nPix no valor de R$%.2f realizado com sucesso para %d.%n", valor, destino.nome);
+            System.out.printf("\nPix no valor de R$%.2f realizado com sucesso para %s.%n", valor, destino.nome);
             registrarTransacao(Descricao.PIX, valor);
         } else {
             System.out.println("\nSaldo insuficiente ou valor inválido para Pix.");
