@@ -1,4 +1,4 @@
-package aula03.exercicio9.utilitarios;
+package aula03.exercicio9.utilitario;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
