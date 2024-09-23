@@ -16,9 +16,6 @@ public class ListaDeContasBancarias {
         return instancia;
     }
 
-    public List<ContaBancaria> getContas() {
-        return contas;
-    }
 
     public void adicionarConta(ContaBancaria conta) {
         contas.add(conta);
@@ -35,12 +32,6 @@ public class ListaDeContasBancarias {
             }
         }
         return null;
-    }
-
-    public void listarContas() {
-        for (ContaBancaria conta : contas) {
-            conta.mostrarInformacoes();
-        }
     }
 
     public void mostrarInformacoesParciais() {
