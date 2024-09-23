@@ -7,6 +7,8 @@ import aula03.exercicio9.repositorio.ListaDeTransacao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static aula03.exercicio9.utilitario.ValidadorCpf.cpfValido;
+
 public class MenuBancario implements Menu {
 
     private ContaBancaria contaBancaria;
@@ -57,9 +59,9 @@ public class MenuBancario implements Menu {
         String endereco = obterInputString("Endereço: ");
         String banco = obterInputString("Banco: ");
 
+        System.out.println((cpfValido(cpf)));
+
         contaBancaria = new ContaBancaria(nome, cpf, endereco, banco);
-        double saldoInicial = obterInputDouble("Digite o valor do depósito: ");
-        contaBancaria.deposito(saldoInicial);
     }
 
     private double obterInputDouble(String prompt) {
