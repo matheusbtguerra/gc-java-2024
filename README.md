@@ -2,8 +2,27 @@
 
 ---
 ## Level
-**Level Atual:** 0
+**Level Atual:** 3
 
+---
+## Feedback exercícios
+
+- **Aula 01:**
+	- **Ex1:** Ok, solução engraçada :D
+	- **Ex2:** Ok
+	- **Ex3:** Incorreto. Lógica ok, porém numeros double estão sendo lidos como int, se passarmos um número com casa decimal o programa quebra. Além disso, evite o uso de métodos prontos
+- **Aula 02:**
+	- **Ex4:** Incorreto. Lógica correta, porém deve solicitar um intervalo, ou seja número inicial e número final
+	- **Ex5:** Ok
+	- **Ex6:** Ok
+	- **Ex7:** Ok, evite usar métodos prontos
+- **Aula 03:**
+	- **Ex8:** Ok
+	- **Ex9:** (co-op) Ok, código mais complexo do que o exercício pediu
+- **Aula 04:**
+	- **Ex10:** Ok
+	- **Ex11:** NF
+	
 ---
 ## Conquistas
 
