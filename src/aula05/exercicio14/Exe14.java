@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Exe14 {
     public static void main(String[] args) {
+        //Feito em coop por Matheus Guerra, Rodrigo Weber e Rafael Mainieri.
         Carro carro1 = new Carro("Ford", "Ká", 2020, 4);
         Carro carro2 = new Carro("Ford", "Fiesta", 2014, 4);
         Moto moto1 = new Moto("Triumph", "Daytona", 2014, 675);
