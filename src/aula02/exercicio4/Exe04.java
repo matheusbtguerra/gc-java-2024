@@ -4,27 +4,29 @@ import java.util.Scanner;
 public class Exe04 {
         public static void main(String[] args) {
             Scanner ler = new Scanner(System.in);
-            int numeroComparativo;
+            int numeroFinal, numeroInicial;
 
             System.out.println("-------Números Primos-------");
-            System.out.println("Digite até que número você deseja ver os primos existentes.");
-            numeroComparativo = ler.nextInt();
+            System.out.println("Digite o número inicial do intervalo de números primos");
+            numeroInicial = ler.nextInt();
+            System.out.println("Agora digite o número final do intervalo de números primos");
+            numeroFinal = ler.nextInt();
 
-            for (int num = 2; num <= numeroComparativo; num++) {
-                boolean Primo = true;
-
+            System.out.println("Os números primos entre " + numeroInicial + " e " + numeroFinal + " são:");
+            for (int num = numeroInicial; num <= numeroFinal; num++) {
+                boolean primo = true;
                 if (num > 2 && num % 2 == 0) {
-                    Primo = false;
+                    primo = false;
                 } else {
                     for (int i = 3; i <= Math.sqrt(num); i += 2) {
                         if (num % i == 0) {
-                            Primo = false;
+                            primo = false;
                             break;
                         }
                     }
                 }
-                if (Primo) {
-                    System.out.println(num + " É primo!");
+                if (primo) {
+                    System.out.println(num);
                 }
             }
         }
