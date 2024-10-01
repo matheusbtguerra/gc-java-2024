@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Exe12 {
     public static void main(String[] args) {
+        //Feito em coop por Matheus Guerra, Rodrigo Weber e Rafael Mainieri.
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Quantos números deseja inserir? ");
