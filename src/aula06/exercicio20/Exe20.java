@@ -15,9 +15,8 @@ public class Exe20 {
 
         String[] palavrasSeparadas = fraseDigitada.split(" ");
 
-        for (int i = 0; i < palavrasSeparadas.length; i++) {
-            String palavra = palavrasSeparadas[i];
-            if (contagemPalavras.containsKey(palavra)){
+        for (String palavra : palavrasSeparadas) {
+            if (contagemPalavras.containsKey(palavra)) {
                 int valorChave = contagemPalavras.get(palavra);
                 contagemPalavras.put(palavra, (valorChave = valorChave + 1));
             } else {
