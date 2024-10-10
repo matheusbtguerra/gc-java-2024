@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class GestaoMercenarios {
     public static void main(String[] args) {
-        List<Mercenario> listamercenarios = new ArrayList<>();
+        List<Mercenario> listaMercenarios = new ArrayList<>();
         Scanner ler = new Scanner(System.in);
         int opcaoMenuPrincipal;
         boolean saida = false;
@@ -72,7 +72,7 @@ public class GestaoMercenarios {
                     }
 
                     Mercenario mercenario = new Mercenario(nome, classe, idade, salarioBase, avaliacaoDesempenho);
-                    listamercenarios.add(mercenario);
+                    listaMercenarios.add(mercenario);
                     System.out.println("-------Mercenário adicionado com sucesso!-------");
 
                 }
@@ -82,7 +82,7 @@ public class GestaoMercenarios {
                     String nomeAtualizar = ler.nextLine();
                     boolean encontrado = false;
 
-                    for (Mercenario m : listamercenarios) {
+                    for (Mercenario m : listaMercenarios) {
                         if (m.getNome().equalsIgnoreCase(nomeAtualizar)) {
                             encontrado = true;
                             System.out.print("Novo Nome: ");
@@ -147,11 +147,11 @@ public class GestaoMercenarios {
                     String nomeRemover = ler.nextLine();
                     boolean encontrado = false;
 
-                    for (Mercenario m : listamercenarios) {
+                    for (Mercenario m : listaMercenarios) {
                         if (m.getNome().equalsIgnoreCase(nomeRemover)) {
                             encontrado = true;
 
-                            listamercenarios.remove(m);
+                            listaMercenarios.remove(m);
                             System.out.println("Mercenário removido com sucesso!");
                             break;
                         }
@@ -164,7 +164,7 @@ public class GestaoMercenarios {
 
                 case 4 -> {
                     System.out.println("Lista de Mercenários:");
-                    for (Mercenario m : listamercenarios) {
+                    for (Mercenario m : listaMercenarios) {
                         System.out.println(m.toString());
                     }
                 }
@@ -174,7 +174,7 @@ public class GestaoMercenarios {
                     String nomeBuscado = ler.nextLine();
                     boolean encontrado = false;
 
-                    for (Mercenario m : listamercenarios) {
+                    for (Mercenario m : listaMercenarios) {
                         if (m.getNome().equalsIgnoreCase(nomeBuscado)) {
                             encontrado = true;
                             System.out.println(m.toString());
@@ -208,7 +208,7 @@ public class GestaoMercenarios {
                     };
                     boolean encontrado = false;
 
-                    for (Mercenario m : listamercenarios) {
+                    for (Mercenario m : listaMercenarios) {
                         if (m.getClasse().equalsIgnoreCase(classeBuscada)) {
                             encontrado = true;
                             System.out.println(m.toString());
@@ -218,8 +218,6 @@ public class GestaoMercenarios {
                     if (!encontrado) {
                         System.out.println("Não há nenhum mercenário cadastrado na classe buscada.");
                     }
-
-
                 }
 
                 case 7 -> {
