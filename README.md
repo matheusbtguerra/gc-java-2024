@@ -2,7 +2,7 @@
 
 ---
 ## Level
-**Level Atual:** 3
+**Level Atual:** 5
 
 ---
 ## Feedback exercícios
@@ -22,6 +22,24 @@
 - **Aula 04:**
 	- **Ex10:** Ok
 	- **Ex11:** NF
+- **Aula 05:**
+	- **Ex12:** Ok, idealmente a soma deveria ser feita no mesmo loop que recebe os números para reduzir o número de laços no código
+	- **Ex13:** Ok, cuidado com linhas de código desnecessárias
+	- **Ex14:** Ok
+- **Aula 06:**
+	- **Ex15:** Ok
+	- **Ex16:** Ok
+	- **Ex17:** Ok, idealmente deveria permitir que o usuário digite os números que vão ser adicionados
+	- **Ex18:** Ok. O que eu acabei de corrigir? KKKKKKKKK
+	- **Ex19:** Incorreto, exercício deve permitir inserir novos dados
+	- **Ex20:** Ok, cuidado com linhas desnecessárias no código
+- **Aula 07:**
+	- **Ex21:** Incorreto, método não está sendo chamado em um try catch
+	- **Ex22:** Incorreto, não conseguir rodar, nome do pacote está errado
+	- **Ex23:** Ok, cuidado com linhas de código desnecessárias
+	- **Ex24:** ---
+	
+- Geral: comentário dos exercícios coop devem ter indicado também o repositório principal
 	
 ---
 ## Conquistas
