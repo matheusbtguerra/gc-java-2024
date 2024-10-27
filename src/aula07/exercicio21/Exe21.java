@@ -4,22 +4,21 @@ import java.util.Scanner;
 
 public class Exe21 {
     public static void main(String[] args) {
-        aceitaInteiro();
+        try {
+            aceitaInteiro();
+        } catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
 
     public static void aceitaInteiro(){
         Scanner ler = new Scanner(System.in);
-        try {
-            int numeroDigitado;
-            System.out.println("Digite um número inteiro: ");
-            numeroDigitado = ler.nextInt();
-            if (numeroDigitado < 0){
-                throw new IllegalArgumentException("O número " + numeroDigitado + " não é inteiro!");
-            } else {
-                System.out.println("O número " + numeroDigitado + " é inteiro.");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro: " + e.getMessage());
+        System.out.println("Digite um número inteiro positivo: ");
+        int numeroDigitado = ler.nextInt();
+        if (numeroDigitado < 0){
+            throw new IllegalArgumentException("O número digitado é negativo!");
+        } else {
+            System.out.println("O número digitado é válido!");
         }
 
     }
