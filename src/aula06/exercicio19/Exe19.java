@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Exe19 {
     public static void main(String[] args) {
-        String nomeDigitado;
         Scanner ler = new Scanner(System.in);
         Map<String, Double> notaEstudantes = new HashMap<>();
         notaEstudantes.put("MATHEUS", 10.0);
@@ -15,14 +14,53 @@ public class Exe19 {
         notaEstudantes.put("RAFAEL", 7.8);
         notaEstudantes.put("LEONARDO", 9.7);
 
-        System.out.println("Digite o nome de um(a) aluno(a) e verificarei se ele encontra-se em nossa lista de estudantes.");
-        nomeDigitado = ler.next().toUpperCase();
+        boolean sair = true;
+        while (sair) {
+            System.out.println("\n----Inserção de Alunos---");
+            System.out.println("1 - Adicionar Aluno\n2 - Sair");
+            int opcao = ler.nextInt();
+            ler.nextLine();
 
-        if (notaEstudantes.containsKey(nomeDigitado)) {
-            System.out.println("O aluno " + nomeDigitado + " foi encontrado em nossa lista de alunos! Sua nota é: " + notaEstudantes.get(nomeDigitado) + ".");
-        } else {
-            System.out.println("O aluno " + nomeDigitado + " não está presente em nossa lista de alunos...");
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o nome do aluno a ser inserido: ");
+                    String nomeDigitadoParaAdicionar = ler.nextLine().toUpperCase();
+                    System.out.println("Digite a nota desse aluno: ");
+                    Double notaParaAdicionar = ler.nextDouble();
+                    notaEstudantes.put(nomeDigitadoParaAdicionar, notaParaAdicionar);
+                    break;
+                case 2:
+                    sair = false;
+                    break;
+                default:
+                    System.out.println("Opção digitada inválida!");
+            }
         }
 
+        while (!sair){
+            System.out.println("\n---Verificar alunos na lista---");
+            System.out.println("1 - Verificar nome na lista\n2 - Sair");
+            int opcao = ler.nextInt();
+            ler.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o nome de um(a) aluno(a) e verificarei se ele se encontra em nossa lista de estudantes");
+                    String nomeDigitadoPesquisa = ler.nextLine().toUpperCase();
+                    if (notaEstudantes.containsKey(nomeDigitadoPesquisa)) {
+                        System.out.println("O aluno " + nomeDigitadoPesquisa + " foi encontrado em nossa lista de alunos! Sua nota é: " + notaEstudantes.get(nomeDigitadoPesquisa) + ".");
+                    } else {
+                        System.out.println("O aluno " + nomeDigitadoPesquisa + " não está presente em nossa lista de alunos...");
+                    }
+                    break;
+                case 2:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Opção digitada inválida!");
+            }
+        }
+
+        ler.close();
     }
 }

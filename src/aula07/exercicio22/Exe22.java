@@ -1,9 +1,10 @@
-package aula07.exercicio21;
+package aula07.exercicio22;
 
 import aula07.exercicio22.ValorInvalidoException;
 
 import java.util.Scanner;
 
+//desculpa pelo erro juvenil :(
 public class Exe22 {
     public static void main(String[] args) {
         maiorQueDez();

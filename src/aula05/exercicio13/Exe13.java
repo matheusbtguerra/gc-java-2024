@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Exe13 {
     public static void main(String[] args) {
         //Feito em coop por Matheus Guerra, Rodrigo Weber e Rafael Mainieri.
+        //https://github.com/RafaelMainieri/gc-java-2024
         Scanner input = new Scanner(System.in);
         LocalDate data = LocalDate.of(2024, 9, 30);
         Compra compra1 = new Compra("Tomate", data);
